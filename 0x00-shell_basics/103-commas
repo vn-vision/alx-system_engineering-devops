@@ -1,4 +1,2 @@
 #!/bin/bash
-echo "${files=$(ls -ap | grep -E '^(\.|[A-Za-z0-9])' | LC_COLLATE=C sort -df | tr '\n' ',')}"
-
-
+ls -apmv
