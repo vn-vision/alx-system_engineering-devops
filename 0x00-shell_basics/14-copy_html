@@ -1,2 +1,3 @@
 #!/bin/bash
-find . -type f -newermt $(date +%Y-%m-%d) -name "*.html" -exec cp -n {} ../ {} +
+find . -name "*.html" -exec cp --update {} ../ {}+
+
