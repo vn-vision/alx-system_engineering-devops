@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
+# This script is displaying "Best School" 10 times
 start=0
 stop=9
 
-for ((i=$start; i<=$stop; i++)); do
+for ((i=start; i<=stop; i++)); do
 	echo "Best School"
 done
