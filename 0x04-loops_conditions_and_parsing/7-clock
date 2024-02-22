@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# This script displays 12 hours and 59 minutes
 i=1
 hour=0
 
