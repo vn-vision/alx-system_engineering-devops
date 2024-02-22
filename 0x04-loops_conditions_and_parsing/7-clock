@@ -11,6 +11,6 @@ do
 		echo $i
 		((i++))
 	done
-	i=0
+	i=1
 	((hour++))
 done
