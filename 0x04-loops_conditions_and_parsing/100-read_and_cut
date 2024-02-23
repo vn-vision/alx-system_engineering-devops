@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# This script displays the content of the /etc/passwd
+file="/etc/passwd"
+
+if [ -e "$file" ]
+then
+	while IFS=: read -r username x userid x x path x;
+	do
+		echo "$username:$userid:$path"
+	done < "$file"
+else
+	echo "file $file cannot be reached"
+fi
