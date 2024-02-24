@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# This script kilss the process 7-highlander
+myId=$(pgrep -f highlander)
+kill -9 "$myId"

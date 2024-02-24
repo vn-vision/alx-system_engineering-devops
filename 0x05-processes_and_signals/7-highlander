@@ -4,7 +4,7 @@
 # Terminate is a function that handles SIGTERM SIGNAL
 
 terminate() {
-	echo "I am Invicible!!!"
+	echo "I am invicible!!!"
 }
 
 # trap the sigterm function
