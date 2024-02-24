@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# This script displays "To infinity and beyond,"
+# with sleep 2 in betweeen, "I am invicible!!! when receiving a SIGTERM
+# Terminate is a function that handles SIGTERM SIGNAL
+
+terminate() {
+	echo "I am Invicible!!!"
+}
+
+# trap the sigterm function
+trap terminate SIGTERM
+
+while true
+do
+	echo "To Infinity and beyond"
+	sleep 2
+done
