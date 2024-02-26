@@ -13,7 +13,7 @@ terminate() {
 }
 
 trap 'echo "I hate the kill command";' SIGTERM
-trap 'echo "Y U no love me?!";' SIGINT
+trap 'echo "Y U no love me?!"' SIGINT
 trap 'terminate' SIGQUIT SIGTERM
 
 while true;
