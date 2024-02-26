@@ -4,15 +4,15 @@
 # "I hate the kill command when receiving SIGTERM, Y U no love me?! SIGINT
 # delete file /var/run/myscript.pid and terminate when receiving SIGQUIT / SIGTERM
 
-pid="$(ps $$)"
+pid=$$ 
 echo $pid > /var/run/myscript.pid
 
 terminate() {
-	trap 'echo "I hate the kill command"' SIGTERM
-	rm -r /var/run/myscript.pid
+	echo "I hate the kill command"
+	rm /var/run/myscript.pid
+	exit 0
 }
-trap terminate SIGTERM
-trap 'rm -r /var/run/myscript.pid' SIGQUIT
+trap terminate SIGTERM SIGQUIT
 trap 'echo "Y U no love me?!"' SIGINT
 
 while true;
