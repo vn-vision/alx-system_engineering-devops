@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# shows attached Ips
+ip4=$(ifconfig | grep -oP 'inet (?:addr:)?\K[0-9.]{7,15}')
+echo "$ip4"
