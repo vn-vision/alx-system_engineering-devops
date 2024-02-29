@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# This script checks if the entered IP is active using ping
+# Check number of arguments specified
+
+if [ "$#" -ne 1 ];
+then
+	echo "Usage: $0 {IP_ADDRESS}"
+fi
+
+ip="$1"
+ping -c5 "$ip"
