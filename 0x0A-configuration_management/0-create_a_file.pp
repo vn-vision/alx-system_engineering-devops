@@ -17,6 +17,6 @@ mode   => '0744'
 # create file school in directory /tmp
 file { "${file}/school":
 ensure  => 'present',
-content => 'I love puppet',
+content => 'I love Puppet',
 require => File[$file]
 }
