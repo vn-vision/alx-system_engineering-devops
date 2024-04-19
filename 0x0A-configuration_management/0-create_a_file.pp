@@ -2,10 +2,6 @@
 
 $file='/tmp'
 
-exec {'apt-get update':
-command => '/usr/bin/apt-get update'
-}
-
 # make sure that the directory exists with set owner and permission
 file { $file:
 ensure => 'directory',
