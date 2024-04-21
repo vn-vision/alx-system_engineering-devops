@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# this script uses ssh to connect to server
+ssh-add ~/.ssh/school
+
+# after adding the key, connect to the server
+ssh ubuntu@8.8.8.8
