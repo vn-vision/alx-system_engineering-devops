@@ -4,10 +4,29 @@
 # Serve a page that would return a Hello World string
 #
 
+# update the headers of linux
+apt-get update
+
+# install nginx server
 apt-get install -y nginx
-sed -i 's/^\(listen 80;\)/\1/' /etc/nginx/sites-available/default
-chmod -R 755 /var/www/
+
+# start nginx
 service nginx start
-echo "Hello World!" > /var/www/data/index.html
+
+# remove comment on line: listen 80;
+sed -i 's/^\(listen 80;\)/\1/' /etc/nginx/sites-available/default
+
+# change dir permissions to enable read, write, exec for root user
+chmod -R 755 /var/www/
+
+# Backup default index
+cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+
+# change contents of the default page
+echo "Hello World!" > /var/www/html/index.nginx-debian.html
+
+# test for correct syntax
 nginx -t
+
+# reload the server
 service nginx reload
