@@ -13,13 +13,10 @@ apt-get install -y nginx
 # start nginx
 service nginx start
 
-# remove comment on line: listen 80;
-# sed -i 's/^\(listen 80;\)/\1/' /etc/nginx/sites-available/default
-
 # change dir permissions to enable read, write, exec for root user
 chmod -R 755 /var/www/
 
-# Backup default index
+# Backup default index - you could choose to overwrite it
 cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
 
 # change contents of the default page
