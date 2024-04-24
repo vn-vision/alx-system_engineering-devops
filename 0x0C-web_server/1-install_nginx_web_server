@@ -14,7 +14,7 @@ apt-get install -y nginx
 service nginx start
 
 # remove comment on line: listen 80;
-sed -i 's/^\(listen 80;\)/\1/' /etc/nginx/sites-available/default
+# sed -i 's/^\(listen 80;\)/\1/' /etc/nginx/sites-available/default
 
 # change dir permissions to enable read, write, exec for root user
 chmod -R 755 /var/www/
