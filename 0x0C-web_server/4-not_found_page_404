@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# this script configures nginx server to have a custom 404 page
+# contains the string "Ceci n'est pas une page."
+
+# update linux headers
+apt-get install update
+
+# install nginx server
+apt-get install nginx -y
+
+# start nginx
+service nginx start
+
+chmod -R 755 /var/www/
+
+echo "Ceci n'est pas une page" > /var/www/html/xyzfoo
+# add location /redirect_me after the server_name
+
+sed -i 's/server_name _;/&\n location \/xyz {\n return 404 \/var\/www\/html\/xyzfoo;\n }/' /etc/nginx/sites-available/default
+
+
+service nginx reload
