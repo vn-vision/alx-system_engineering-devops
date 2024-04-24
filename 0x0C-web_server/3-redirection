@@ -11,22 +11,8 @@ apt-get install nginx -y
 # start nginx
 service nginx start
 
-Redirect="https://www.youtube.com/watch?v=QH2-TGUlwu4"
+# add location /redirect_me after the server_name
+sed -i 's/server_name _;/&\n location \/redirect_me {\n return 301 https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4;\n }/' /etc/nginx/sites-available/default
 
-# check if there is a comment before the name server
-if grep -q '^\s*server\s*{' /etc/nginx/sites-available/default; then
-	# Append the 'location' block for redirection in between server {}
-	# at the end
-	
-	sed -i '/^\s*server\s*{/,/^\s*}/ {/^\s*}/ i \
-		location /redirect_me {\
-		return 301 '"$Redirect"'; \
-	}
-}' /etc/nginx/sites-available/default
 
-# Restart nginx to apply the new configuration
 service nginx reload
-
-else
-	echo "Error: No non-commented server"
-fi
