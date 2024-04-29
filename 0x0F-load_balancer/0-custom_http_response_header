@@ -1,21 +1,32 @@
 #!/usr/bin/env bash
-: <<'END_COMMENT'
-This script configures a new ubuntu machine
-The name of the custom HTTP header must be X-Served-By
-The value of the custom HTTP header must be the hostname of the server Nginx is running on
-END_COMMENT
+# this script configures nginx server web-02 to be identical to web-01
+# starts by installing nginx and configuring it
 
-apt update
-apt install nginx -y
+# update linux headers
+apt-get install update
+
+# install nginx server
+apt-get install nginx -y
+
+# start nginx
 service nginx start
+
+# add the landing page after changing permissions
 chmod 755 -R /var/www/
+
+# add the index page
 echo "Hello World!" > /var/www/html/index.html
 
-# make a copy of nginx config for references
+# make a copy of default nginx configurations
 cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.backup
 
-# configure the nginx file: customer header
-# used the $HOSTNAME to dynamically set the value of header
-sed -i '/^ *#/!s/^location \/ {/&\n  add_header X-Served-By $HOSTNAME;/g' /etc/nginx/sites-available/default
+# add location /redirect_me after the server_name
+sed -i 's/server_name _;/&\n\t location \/redirect_me {\n return 301 https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4;\n }/' /etc/nginx/sites-available/default
+
+# add headers right after the server_name as well
+sed -i "s/server_name _;/&\n\t add_header X-Served-By \$HOSTNAME;/" /etc/nginx/sites-available/default
+
+# test nginx for syntax errors
+nginx -t
 
 service nginx reload
