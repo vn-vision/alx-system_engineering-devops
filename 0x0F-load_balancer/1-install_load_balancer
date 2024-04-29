@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+:<<'END_COMMENT'
+This script -->
+Configures HAproxy so that it send traffic to web-01 and web-02
+Distributes requests using a roundrobin algorithm
+Makes sure that HAproxy can be managed via an init script
+Makes sure that your servers are configured with the right hostnames: [STUDENT_ID]-web-01 and [STUDENT_ID]-web-02.
+END_COMMENT
+
+# alert user on privileges
+if [[ $EUID -ne 0  ]]; then
+	echo "Run as root"
+	exit 1
+fi
+
+# installing HAProxy
+apt-get install update -y
+apt-get install haproxy -y
+
+# Configure HAProxy
+cat <<EOF > /etc/haproxy/haproxy.cfg
+frontend vn_vision
+	bind *:80
+	mode :http
+	default_backend vn_vision_bk
+
+backend vn_vision_bk
+	balance roundrobin
+	server 86908-web-01 54.174.207.67:check
+	server 86908-web-02 54.210.123.94:check
+EOF
+
+# enable HAProxy to be started by init script
+echo "ENABLED=1" >> /etc/default/haproxy
+
+# Test the HAProxy configurations
+service haproxy restart
+
+echo "HAProxy configurations complete"
