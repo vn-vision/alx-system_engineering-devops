@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+: <<'END_COMMENT'
+This script configures a new ubuntu machine
+The name of the custom HTTP header must be X-Served-By
+The value of the custom HTTP header must be the hostname of the server Nginx is running on
+END_COMMENT
+
+apt update
+apt install nginx -y
+service nginx start
+chmod 755 -R /var/www/
+echo "Hello World!" > /var/www/html/index.html
+
+# make a copy of nginx config for references
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.backup
+
+# configure the nginx file: customer header
+# used the $HOSTNAME to dynamically set the value of header
+sed -i '/^ *#/!s/^location \/ {/&\n  add_header X-Served-By $HOSTNAME;/g' /etc/nginx/sites-available/default
+
+service nginx reload
