@@ -21,19 +21,22 @@ apt-get install haproxy -y
 cat <<EOF > /etc/haproxy/haproxy.cfg
 frontend vn_vision
 	bind *:80
-	mode :http
+	mode http
 	default_backend vn_vision_bk
 
 backend vn_vision_bk
 	balance roundrobin
-	server 86908-web-01 54.174.207.67:check
-	server 86908-web-02 54.210.123.94:check
+	server 86908-web-01 54.174.207.67:80 check
+	server 86908-web-02 54.210.123.94:80 check
 EOF
 
 # enable HAProxy to be started by init script
 echo "ENABLED=1" >> /etc/default/haproxy
 
-# Test the HAProxy configurations
+# Test the HAProxyi configurations
+haproxy -c -f /etc/haproxy/haproxy.cfg
+
+# restart the proxy for configurations to take place
 service haproxy restart
 
 echo "HAProxy configurations complete"
