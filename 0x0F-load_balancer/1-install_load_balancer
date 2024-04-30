@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# They only accept this # Jameni
 :<<'END_COMMENT'
 This script -->
 Configures HAproxy so that it send traffic to web-01 and web-02
