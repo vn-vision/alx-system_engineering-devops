@@ -12,6 +12,9 @@ fi
 # Scan for the hosts ipv4 address: just list the ip
 # ips=($(ip addr show | sed -nE '/inet /{s/.*inet ([0-9.]+).*/\1/; /127\.0\.0\.1/d; p}'))
 
+# start nginx
+service nginx start
+
 #read is used in a while loop to read each line of the output of ip addr show | sed
 while IFS= read -r ip; do
 	ips+=("$ip")
@@ -22,7 +25,7 @@ n=0
 for ip in "${ips[@]}"; do
 	echo "Scan started for ip_$n: $ip"	
 	# Cut out the active port that nginx is running on
-	prt=$(nmap -A 192.168.0.109 | grep -E '^[0-9]+/tcp.*nginx' | cut -d '/' -f 1)
+	prt=$(nmap -A $ip | grep -E '^[0-9]+/tcp.*nginx' | cut -d '/' -f 1)
 	echo "Nginx is running on: $prt"
 
 	# change the nginx port to 80 for all the specific IPs
