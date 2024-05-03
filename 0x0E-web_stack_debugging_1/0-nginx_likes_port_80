@@ -25,7 +25,7 @@ n=0
 for ip in "${ips[@]}"; do
 	echo "Scan started for ip_$n: $ip"	
 	# Cut out the active port that nginx is running on
-	prt=$(nmap -A $ip | grep -E '^[0-9]+/tcp.*nginx' | cut -d '/' -f 1)
+	prt=$(nmap -A "$ip" | grep -E '^[0-9]+/tcp.*nginx' | cut -d '/' -f 1)
 	echo "Nginx is running on: $prt"
 
 	# change the nginx port to 80 for all the specific IPs
