@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# this script installs certbot and configures it to default
+# for HAproxy on Ubuntu 16.* a load balancer to accept traffic for your subdomain www
+
+# make sure it is run as root
+if [[ "$EUID" -ne 0 ]]
+then
+	echo "Run as Root"
+	exit 1
+fi
+
+# install snap / upgrade it
+apt install snapd
+
+# remove any previous installations of certbot
+apt-get remove certbot
+
+# reinstall or install
+sudo snap install --classic certbot
+
+# prepare certbot command to ensure the certbot command can be run
+ln -s /snap/bin/certbot /usr/bin/certbot
+
+# temporarily stop haproxy to configure certbot
+# make sure to include the name of your domain after -d, enter email when prompted
+service haproxy stop
+certbot certonly --standalone --preferred-challenges http --http-01-port 80 -d www.zillatech.tech
+
+# check if the file exists, substitute with your domain name
+ls /etc/letsencrypt/live/www.zillatech.tech
+
+# combine the fullchain.pem and privkey.pem
+# create the dir where the merged file will be stored
+mkdir -p /etc/haproxy/certs
+
+DOMAIN='www.zillatech.tech' sudo -E bash -c 'cat /etc/letsencrypt/live/$DOMAIN/fullchain.pem /etc/letsencrypt/live/$DOMAIN/privkey.pem > /etc/haproxy/certs/$DOMAIN.pem'
+
+# secure access to the combined file
+chmod -R go-rwx /etc/haproxy/certs
+
+# test automatic renewal
+certbot renew --dry-run
