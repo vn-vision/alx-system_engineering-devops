@@ -13,7 +13,7 @@ global
         crt-base /etc/ssl/private
 
         # See: https://ssl-config.mozilla.org/#server=haproxy&server-version=2.0.3&config=intermediate
-        ssl-default-bind-ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
+        ssl-default-bind-ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-S>
         ssl-default-bind-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
         ssl-default-bind-options ssl-min-ver TLSv1.2 no-tls-tickets
 
@@ -33,19 +33,20 @@ defaults
         errorfile 503 /etc/haproxy/errors/503.http
         errorfile 504 /etc/haproxy/errors/504.http
 
-frontend vn_vision
+frontend vn-vision
         bind *:80
         mode http
-	http-request redirect scheme https code 301 unless { ssl_fc }
-	http-request set-header X_Forwarded-Proto http
-        default_backend vn_vision_bk
+        http-request redirect scheme https code 301 unless { ssl_fc }
+        http-request set-header X_Forwarded-Proto http
+        default_backend vn-vision-bk
 
-frontend vn_vision_https
-	bind *:443 ssl crt /etc/ssl/certs/www.zillatech.tech.pem
-	http-request set-header X_Holberton_scl "True" if { path -i / }
-	default_backend vn_vision_bk	
+frontend vn-vision-https
+        bind *:443 ssl crt /etc/haproxy/certs/www.zillatech.tech.pem
+        http-request set-header X-Forwarded-Proto https
+        default_backend vn-vision-bk
 
-backend vn_vision_bk
+backend vn-vision-bk
         balance roundrobin
         server 86908-web-01 54.174.207.67:80 check
         server 86908-web-02 54.210.123.94:80 check
+
