@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# this identifies users other than root
+sudo -u "$1" whoami
