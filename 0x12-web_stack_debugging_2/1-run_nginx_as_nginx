@@ -19,7 +19,3 @@ sed -i 's/listen 80 default_server;/listen 8080 default_server;/g' /etc/nginx/si
 
 # restart nginx
 service nginx start
-
-# verify nginx is running as user nginx
-
-ps auxff | grep nginx[x]
