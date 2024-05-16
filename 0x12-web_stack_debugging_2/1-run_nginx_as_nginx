@@ -8,15 +8,6 @@ then
 	apt-get install nginx -y
 fi
 
-# stop nginx if it is running
-service nginx stop
-
-# createmnginx user
-# adduser nginx
-
-# change ownership for nginx
-chown nginx:nginx /etc/nginx/nginx.conf
-
 # change file permissions
 chmod 700 /etc/nginx/nginx.conf
 
@@ -27,4 +18,4 @@ sed -i 's/#user www-data;/user nginx;/g' /etc/nginx/nginx.conf
 sed -i 's/listen [0-9]\+ default_server;/listen 8080 default_server;/g' /etc/nginx/sites-available/default
 
 # restart nginx
-sudo -u nginx service nginx start
+sudo -u nginx service nginx reload
