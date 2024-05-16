@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# redo nginx user in 7 lines or less
+apt-get install nginx -y
+chmod 700 /etc/nginx/nginx.conf
+sed -i 's/user www-data;/user nginx;/g' /etc/nginx/nginx.conf
+sed -i 's/listen [0-9]+\/listen 8080/g' /etc/nginx/sites-available/default
+sudo -u nginx service nginx reload
