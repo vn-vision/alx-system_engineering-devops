@@ -1,10 +1,9 @@
 #!/usr/bin/python3
 ''' export data to JSON file given the ID '''
 
-import sys
 import json
 import requests
-
+import sys
 
 if __name__ == "__main__":
     # limit importation
@@ -15,4 +14,7 @@ if __name__ == "__main__":
     todos = requests.get(url + "todos", params={"userId": userId}).json()
 
     with open("{}.json".format(userId), "w") as jsonfile:
-        json.dump({userId: [{"task": t.get("title"), "completed": t.get("completed"), "username": username} for t in todos]}, jsonfile)
+        json.dump({userId: [{"task": t.get("title"),
+                             "completed": t.get("completed"),
+                             "username": username}
+                            for t in todos]}, jsonfile)

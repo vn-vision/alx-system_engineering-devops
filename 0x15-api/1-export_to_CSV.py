@@ -2,9 +2,8 @@
 ''' export data to CSV file given the ID '''
 
 import csv
-import sys
 import requests
-
+import sys
 
 if __name__ == "__main__":
     # limit importation
