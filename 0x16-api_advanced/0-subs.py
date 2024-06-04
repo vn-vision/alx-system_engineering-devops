@@ -18,9 +18,9 @@ def number_of_subscribers(subreddit):
             subreddit = response.json()
             return subreddit['data']['subscribers']
         elif response.status_code == 404:
-            return 0
+            return None
         else:
-            return 0
+            return None
     except requests.RequestException as e:
         print(f"Error: {e}")
         return 0

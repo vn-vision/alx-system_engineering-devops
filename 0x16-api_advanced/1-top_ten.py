@@ -28,9 +28,9 @@ def top_ten(subreddit):
                 return titles
 
         elif response.status_code == 404:
-            return 0
+            return None
         else:
-            return 0
+            return None
 
     except requests.RequestException as e:
         print("Error: {}".format(e))
