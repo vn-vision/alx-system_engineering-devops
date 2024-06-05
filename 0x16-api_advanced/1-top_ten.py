@@ -11,14 +11,14 @@ def top_ten(subreddit):
 
     url = f"https://www.reddit.com/r/{subreddit}/hot.json"
     headers = {"User-Agent": "my-app.0.0.1"}
-    
+
     if subreddit is None or not isinstance(subreddit, str):
         return None
     try:
         response = requests.get(url, headers=headers, allow_redirects=False)
         if response.status_code != 200:
             return None
-        
+
         hot = response.json()
 
         # get the list with posts
@@ -32,4 +32,4 @@ def top_ten(subreddit):
             return titles
 
     except requests.RequestException as e:
-        print("Error: {}".format(e))
+        return None
