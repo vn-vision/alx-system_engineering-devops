@@ -6,10 +6,10 @@ subreddit '''
 import requests
 
 
-def recurse(subreddit, hot_list=[]):
+def recurse(subreddit, hot_list=[], after=None):
     # the recurse function to return list of hot articles
 
-    url = f"https://www.reddit.com/r/{subreddit}/hot/json"
+    url = f"https://www.reddit.com/r/{subreddit}/hot.json"
     headers = {"User-Agent": "Mozilla/5.0"}
     params = {"limit": 100, "after": after}
 
@@ -17,13 +17,16 @@ def recurse(subreddit, hot_list=[]):
                             allow_redirects=False)
 
     if response.status_code == 404:
+        print('not found')
         return None
 
     elif response.status_code == 302:
+        print('redirect')
         return None
 
     data = response.json().get('data')
     if data is None:
+        print('no data')
         return None
 
     for child in data['children']:
@@ -35,4 +38,4 @@ def recurse(subreddit, hot_list=[]):
     if after:
         return recurse(subreddit, hot_list, after)
 
-    return len(hot_list)
+    return hot_list
