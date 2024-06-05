@@ -11,29 +11,25 @@ def top_ten(subreddit):
 
     url = f"https://www.reddit.com/r/{subreddit}/hot.json"
     headers = {"User-Agent": "my-app.0.0.1"}
-
+    
+    if subreddit is None or not isinstance(subreddit, str):
+        return None
     try:
         response = requests.get(url, headers=headers, allow_redirects=False)
-        if response.status_code == 200:
-            hot = response.json()
-
-            # get the list with posts
-            htChild = hot['data']['children']
-            # get the top ten
-            htData = htChild[:9]
-
-            # loop through the list
-            for ttl in htData:
-                titles = ttl['data']['title']
-                return titles
-
-        elif response.status_code == 404:
+        if response.status_code != 200:
             return None
-        else:
-            return None
+        
+        hot = response.json()
+
+        # get the list with posts
+        htChild = hot['data']['children']
+        # get the top ten
+        htData = htChild[:9]
+
+        # loop through the list
+        for ttl in htData:
+            titles = ttl['data']['title']
+            return titles
 
     except requests.RequestException as e:
         print("Error: {}".format(e))
-
-
-top_ten('programming')
