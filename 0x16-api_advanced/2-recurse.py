@@ -11,15 +11,15 @@ def recurse(subreddit, hot_list=[], after=None):
 
     url = f"https://www.reddit.com/r/{subreddit}/hot.json"
     headers = {"User-Agent": "Mozilla/5.0"}
-    params = {"limit": 100, "after": after}
+    params = {"show": 'all', "after": after}
+
+    if subreddit is None or not isinstance(subreddit, str):
+        return None
 
     response = requests.get(url, headers=headers, params=params,
                             allow_redirects=False)
 
-    if response.status_code == 404:
-        return None
-
-    elif response.status_code == 302:
+    if response.status_code != 200:
         return None
 
     data = response.json().get('data')
