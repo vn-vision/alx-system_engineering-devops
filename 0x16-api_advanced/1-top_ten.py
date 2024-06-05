@@ -17,7 +17,7 @@ def top_ten(subreddit):
     try:
         response = requests.get(url, headers=headers, allow_redirects=False)
         if response.status_code != 200:
-            return None
+            print(None)
 
         hot = response.json()
 
@@ -29,7 +29,7 @@ def top_ten(subreddit):
         # loop through the list
         for ttl in htData:
             titles = ttl['data']['title']
-            return titles
+            print(titles)
 
-    except requests.RequestException as e:
+    except requests.RequestException:
         return None
