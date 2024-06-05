@@ -17,16 +17,13 @@ def recurse(subreddit, hot_list=[], after=None):
                             allow_redirects=False)
 
     if response.status_code == 404:
-        print('not found')
         return None
 
     elif response.status_code == 302:
-        print('redirect')
         return None
 
     data = response.json().get('data')
     if data is None:
-        print('no data')
         return None
 
     for child in data['children']:
